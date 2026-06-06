@@ -1,0 +1,43 @@
+openapi: 3.0.3
+
+info:
+ title: Inventory Search API
+ version: 1.0.0
+
+paths:
+
+ /api/v1/inventories/search:
+
+  post:
+
+   summary: Search Inventory
+
+   requestBody:
+
+    required: false
+
+    content:
+
+     application/json:
+
+      schema:
+
+       $ref: '#/components/schemas/InventorySearchRequest'
+
+   responses:
+
+    '200':
+     description: Success
+
+    '400':
+     description: Validation Error
+
+components:
+
+ schemas:
+
+  InventorySearchRequest:
+   type: object
+
+  InventoryResponse:
+   type: object
