@@ -6,6 +6,8 @@ import com.hcl.inventory.dto.Pagination;
 import com.hcl.inventory.exception.ValidationException;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,40 +20,87 @@ public class InventorySearchValidator {
         List<String> errors =
                 new ArrayList<>();
 
-        validatePriceRange(request, errors);
+        validatePrice(request, errors);
 
-        validateStockRange(request, errors);
+        validateStock(request, errors);
 
         validateDates(request, errors);
 
         validatePagination(request, errors);
 
         if (!errors.isEmpty()) {
-            throw new ValidationException(errors);
+
+            throw new ValidationException(
+                    errors);
         }
     }
 
-    private void validatePriceRange(
+    private void validatePrice(
             InventorySearchRequest request,
             List<String> errors) {
 
-        if (request.getMinPrice() != null
-                && request.getMaxPrice() != null
-                && request.getMinPrice()
-                .compareTo(request.getMaxPrice()) > 0) {
-            errors.add("minPrice cannot exceed maxPrice");
+        BigDecimal minPrice =
+                request.getMinPrice();
+
+        BigDecimal maxPrice =
+                request.getMaxPrice();
+
+        if (minPrice != null
+                && minPrice.compareTo(
+                BigDecimal.ZERO) < 0) {
+
+            errors.add(
+                    "minPrice cannot be negative");
+        }
+
+        if (maxPrice != null
+                && maxPrice.compareTo(
+                BigDecimal.ZERO) < 0) {
+
+            errors.add(
+                    "maxPrice cannot be negative");
+        }
+
+        if (minPrice != null
+                && maxPrice != null
+                && minPrice.compareTo(
+                maxPrice) > 0) {
+
+            errors.add(
+                    "minPrice cannot exceed maxPrice");
         }
     }
 
-    private void validateStockRange(
+    private void validateStock(
             InventorySearchRequest request,
             List<String> errors) {
 
-        if (request.getMinStock() != null
-                && request.getMaxStock() != null
-                && request.getMinStock()
-                > request.getMaxStock()) {
-            errors.add("minStock cannot exceed maxStock");
+        Integer minStock =
+                request.getMinStock();
+
+        Integer maxStock =
+                request.getMaxStock();
+
+        if (minStock != null
+                && minStock < 0) {
+
+            errors.add(
+                    "minStock cannot be negative");
+        }
+
+        if (maxStock != null
+                && maxStock < 0) {
+
+            errors.add(
+                    "maxStock cannot be negative");
+        }
+
+        if (minStock != null
+                && maxStock != null
+                && minStock > maxStock) {
+
+            errors.add(
+                    "minStock cannot exceed maxStock");
         }
     }
 
@@ -59,11 +108,27 @@ public class InventorySearchValidator {
             InventorySearchRequest request,
             List<String> errors) {
 
-        if (request.getManufacturingDate() != null
-                && request.getExpiryDate() != null
-                && request.getManufacturingDate()
-                .isAfter(request.getExpiryDate())) {
-            errors.add("manufacturingDate cannot be after expiryDate");
+        LocalDate manufacturingDate =
+                request.getManufacturingDate();
+
+        LocalDate expiryDate =
+                request.getExpiryDate();
+
+        if (manufacturingDate != null
+                && manufacturingDate.isAfter(
+                LocalDate.now())) {
+
+            errors.add(
+                    "manufacturingDate cannot be in future");
+        }
+
+        if (manufacturingDate != null
+                && expiryDate != null
+                && manufacturingDate.isAfter(
+                expiryDate)) {
+
+            errors.add(
+                    "manufacturingDate cannot be after expiryDate");
         }
     }
 
@@ -78,20 +143,33 @@ public class InventorySearchValidator {
             return;
         }
 
-        if (pagination.getPage() != null
-                && pagination.getPage() < 0) {
-            errors.add("page cannot be negative");
+        Integer page =
+                pagination.getPage();
+
+        Integer limit =
+                pagination.getLimit();
+
+        if (page != null
+                && page < 0) {
+
+            errors.add(
+                    "page cannot be negative");
         }
 
-        if (pagination.getLimit() != null
-                && pagination.getLimit() <= 0) {
-            errors.add("limit must be greater than zero");
+        if (limit != null
+                && limit <= 0) {
+
+            errors.add(
+                    "limit must be greater than zero");
         }
 
-        if (pagination.getLimit() != null
-                && pagination.getLimit()
-                > InventoryConstants.MAX_PAGE_LIMIT) {
-            errors.add("limit cannot exceed " + InventoryConstants.MAX_PAGE_LIMIT);
+        if (limit != null
+                && limit >
+                InventoryConstants.MAX_PAGE_LIMIT) {
+
+            errors.add(
+                    "limit cannot exceed "
+                            + InventoryConstants.MAX_PAGE_LIMIT);
         }
     }
 }

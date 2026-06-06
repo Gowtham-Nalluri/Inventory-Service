@@ -156,6 +156,24 @@ public class InventoryRepositoryCustomImpl
                                     request.getMaxPrice()));
         }
 
+        if (request.getMinStock() != null) {
+
+            criteriaList.add(
+                    Criteria.where(
+                                    InventoryConstants.STOCK)
+                            .gte(
+                                    request.getMinStock()));
+        }
+
+        if (request.getMaxStock() != null) {
+
+            criteriaList.add(
+                    Criteria.where(
+                                    InventoryConstants.STOCK)
+                            .lte(
+                                    request.getMaxStock()));
+        }
+
         return criteriaList;
     }
 
