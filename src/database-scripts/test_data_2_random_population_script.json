@@ -1,9 +1,11 @@
+use local
+
 const categories = [
-"Electronics",
-"Furniture",
-"Fashion",
-"Grocery",
-"Sports"
+  "Electronics",
+  "Furniture",
+  "Fashion",
+  "Grocery",
+  "Sports"
 ];
 
 const subCategories = {
@@ -20,15 +22,13 @@ const sellers = [
 "Reliance Digital",
 "Croma",
 "BigBasket",
-"Ikea",
-"Nike Store",
-"Adidas Store"
+"Ikea"
 ];
 
 const locations = [
 "Chennai",
-"Bengaluru",
 "Hyderabad",
+"Bengaluru",
 "Mumbai",
 "Delhi"
 ];
@@ -42,13 +42,16 @@ categories[Math.floor(Math.random() * categories.length)];
 
 const subCategory =
 subCategories[category][
-Math.floor(
-Math.random() *
-subCategories[category].length
-)
+Math.floor(Math.random() * subCategories[category].length)
 ];
 
+const randomPrice =
+(
+Math.random() * 100000 + 1000
+).toFixed(2);
+
 inventories.push({
+
 name: `${category}-${subCategory}-${i}`,
 
 category: category,
@@ -67,28 +70,22 @@ Math.floor(Math.random() * 12),
 Math.floor(Math.random() * 28) + 1
 ),
 
-specification: `Specification ${i}`,
+specification: `Specification-${i}`,
 
-price:
-Math.floor(Math.random() * 90000) + 1000,
+price: NumberDecimal(randomPrice),
 
-stock:
-Math.floor(Math.random() * 500) + 1,
+stock: Math.floor(Math.random() * 500) + 1,
 
 model: `MODEL-${i}`,
 
 seller:
 sellers[
-Math.floor(
-Math.random() * sellers.length
-)
+Math.floor(Math.random() * sellers.length)
 ],
 
 location:
 locations[
-Math.floor(
-Math.random() * locations.length
-)
+Math.floor(Math.random() * locations.length)
 ]
 });
 }

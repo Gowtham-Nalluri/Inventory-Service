@@ -96,7 +96,6 @@ public class InventoryRepositoryCustomImpl
 
         if (sorting == null
                 || sorting.getField() == null) {
-
             return Sort.unsorted();
         }
 
