@@ -27,7 +27,6 @@ public class InventorySearchValidator {
         validatePagination(request, errors);
 
         if (!errors.isEmpty()) {
-
             throw new ValidationException(errors);
         }
     }
@@ -40,9 +39,7 @@ public class InventorySearchValidator {
                 && request.getMaxPrice() != null
                 && request.getMinPrice()
                 .compareTo(request.getMaxPrice()) > 0) {
-
-            errors.add(
-                    "minPrice cannot exceed maxPrice");
+            errors.add("minPrice cannot exceed maxPrice");
         }
     }
 
@@ -54,9 +51,7 @@ public class InventorySearchValidator {
                 && request.getMaxStock() != null
                 && request.getMinStock()
                 > request.getMaxStock()) {
-
-            errors.add(
-                    "minStock cannot exceed maxStock");
+            errors.add("minStock cannot exceed maxStock");
         }
     }
 
@@ -68,9 +63,7 @@ public class InventorySearchValidator {
                 && request.getExpiryDate() != null
                 && request.getManufacturingDate()
                 .isAfter(request.getExpiryDate())) {
-
-            errors.add(
-                    "manufacturingDate cannot be after expiryDate");
+            errors.add("manufacturingDate cannot be after expiryDate");
         }
     }
 
@@ -87,25 +80,18 @@ public class InventorySearchValidator {
 
         if (pagination.getPage() != null
                 && pagination.getPage() < 0) {
-
-            errors.add(
-                    "page cannot be negative");
+            errors.add("page cannot be negative");
         }
 
         if (pagination.getLimit() != null
                 && pagination.getLimit() <= 0) {
-
-            errors.add(
-                    "limit must be greater than zero");
+            errors.add("limit must be greater than zero");
         }
 
         if (pagination.getLimit() != null
                 && pagination.getLimit()
                 > InventoryConstants.MAX_PAGE_LIMIT) {
-
-            errors.add(
-                    "limit cannot exceed "
-                            + InventoryConstants.MAX_PAGE_LIMIT);
+            errors.add("limit cannot exceed " + InventoryConstants.MAX_PAGE_LIMIT);
         }
     }
 }
