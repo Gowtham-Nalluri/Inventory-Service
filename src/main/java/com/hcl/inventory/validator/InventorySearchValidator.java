@@ -29,7 +29,6 @@ public class InventorySearchValidator {
         validatePagination(request, errors);
 
         if (!errors.isEmpty()) {
-
             throw new ValidationException(
                     errors);
         }
