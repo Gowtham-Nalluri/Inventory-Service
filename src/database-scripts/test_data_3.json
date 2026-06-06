@@ -1,0 +1,127 @@
+use local
+
+db.inventories.drop();
+
+const categories = [
+"Electronics",
+"Furniture",
+"Fashion",
+"Grocery",
+"Sports"
+];
+
+const subCategories = {
+Electronics: ["Laptop", "Mobile", "TV"],
+Furniture: ["Chair", "Table", "Dining"],
+Fashion: ["Footwear", "Shirt", "Jeans"],
+Grocery: ["Dairy", "Food", "Beverages"],
+Sports: ["Cricket", "Football", "Fitness"]
+};
+
+const sellers = [
+"Amazon",
+"Flipkart",
+"Reliance Digital",
+"Croma",
+"BigBasket",
+"Ikea"
+];
+
+const locations = [
+"Chennai",
+"Hyderabad",
+"Bengaluru",
+"Mumbai",
+"Delhi"
+];
+
+const inventories = [];
+
+for (let i = 1; i <= 50; i++) {
+
+const category =
+categories[
+Math.floor(
+Math.random() *
+categories.length
+)
+];
+
+const subCategory =
+subCategories[category][
+Math.floor(
+Math.random() *
+subCategories[category].length
+)
+];
+
+const manufacturingDate =
+new Date(
+2024,
+Math.floor(Math.random() * 12),
+Math.floor(Math.random() * 28) + 1
+);
+
+const expiryDate =
+new Date(
+2030,
+Math.floor(Math.random() * 12),
+Math.floor(Math.random() * 28) + 1
+);
+
+const price =
+(
+Math.random() * 100000
++ 1000
+).toFixed(2);
+
+inventories.push({
+
+name:
+`${category}-${subCategory}-${i}`,
+
+category:
+category,
+
+subCategory:
+subCategory,
+
+manufacturingDate:
+manufacturingDate,
+
+expiryDate:
+expiryDate,
+
+specification:
+`Specification-${i}`,
+
+price:
+NumberDecimal(price),
+
+stock:
+Math.floor(
+Math.random() * 500
+) + 1,
+
+model:
+`MODEL-${i}`,
+
+seller:
+sellers[
+Math.floor(
+Math.random()
+* sellers.length
+)
+],
+
+location:
+locations[
+Math.floor(
+Math.random()
+* locations.length
+)
+]
+});
+}
+
+db.inventories.insertMany(inventories);
